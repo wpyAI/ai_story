@@ -38,7 +38,7 @@ class OpenAIClient(LLMClient):
             'messages': [
                 {'role': 'user', 'content': prompt}
             ],
-            'max_tokens': max_tokens or self.config.get("max_tokens", 2000),
+            'max_tokens': max_tokens or self.config.get("max_tokens", 4096),
             'temperature': temperature or self.config.get("temperature", 0.7),
             **kwargs
         }
@@ -126,10 +126,11 @@ class OpenAIClient(LLMClient):
 
         try:
             timeout = self.config.get('timeout', 300)
-            if self.api_url.endswith("/chat/completions"):
-                api_url = self.api_url
-            else:
-                api_url = f'{self.api_url}/chat/completions'
+            # if self.api_url.endswith("/chat/completions"):
+            #     api_url = self.api_url
+            # else:
+            #     api_url = f'{self.api_url}/chat/completions'
+            api_url = self.api_url
             response = requests.post(
                 api_url,
                 headers=headers,
